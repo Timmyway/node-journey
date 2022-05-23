@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Dracofeu",
+        "type": "feu",
+        "attack": 80,
+        "specialAttack": 200,
+        "defense": 70,
+        "specialDefense": 140,
+        "speed": 170
+    },
+    {
+        "id": 2,
+        "name": "Tortank",
+        "type": "eau",
+        "attack": 170,
+        "specialAttack": 100,
+        "defense": 200,
+        "specialDefense": 170,
+        "speed": 60
+    },
+    {
+        "id": 3,
+        "name": "Florizarre",
+        "type": "plante",
+        "attack": 140,
+        "specialAttack": 190,
+        "defense": 70,
+        "specialDefense": 120,
+        "speed": 90
+    },
+]
