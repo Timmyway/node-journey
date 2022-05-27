@@ -1,58 +1,78 @@
-const http = require('http');
 const fs = require('fs');
+const _ = require('lodash');
+const mongoose = require('mongoose');
+const User = require('./Models/user');
 
-const server = http.createServer((req, res) => {
-	// Req contains lots of useful informations
-	// Res is the response we send back to the browser
-	res.setHeader('Content-Type', 'text/html');
-	let path = './views/';
-	switch (req.url) {
-		case '/':
-			path += 'index.html';
-			res.statusCode = 200;			
-			break;
-		case '/about':
-			path += 'about.html';
-			res.statusCode = 200;
-			break;
-		case '/about-me':
-			res.statusCode = 301;
-			res.setHeader('Location', 'about');
-			res.end();
-			break;
-		case '/devs':
-			fs.readFile(`${__dirname}/data.json`, 'utf-8', (err, data) => {
-				const devs = JSON.parse(data)
-				res.writeHead(200, {'Content-type': 'application/json'});
-				res.end(data);
-			})
-			break;	
-		default:
-			path += '404.html';
-			res.statusCode = 404;
-			break;
-	}
+const dbURI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
 
-	fs.readFile(path, (err, data) => {
-		if (err) {
-			console.log(err);
-			res.end();
-		} else {
-			res.end(data);
-		}
+mongoose.connect(dbURI)
+.then((result) => {
+	console.log('Connected to database');
+})
+.catch((err) => console.log(err));
+
+const pokemons = require('./data.json');
+
+const express = require('express');
+const exp = require('constants');
+const app = express();
+
+app.listen(5000);
+
+// Custom middleware
+// app.use((req, res, next) => {	
+// 	console.log('New request entered');
+// 	console.log('host: ', req.hostname);
+// 	console.log('path: ', req.path);
+// 	console.log('method: ', req.method);
+// 	next();
+// })
+
+// Middleware & static files
+app.use(express.static('public'));
+
+app.set('views', './views');
+// Register view engine
+app.set('view engine', 'ejs');
+
+app.get('/', function (req, res) {	
+	res.render('index', { pokemons });
+})
+
+app.get('/about', function (req, res) {
+	res.render('about');
+})
+
+app.get('/about-me', (req, res) => {
+	res.redirect('/about');
+})
+
+app.get('/add-user', (req, res) => {
+	const user = new User({
+		username: 'Tim',
+		email: 'fr2devkontiki@gmail.com',
+		password: 'Kontiki123'
+	});
+
+	user.save()
+	.then((result) => {
+		res.send(result); 
 	})
 })
 
-server.listen(3000, () => {
-	console.log('Listening on port 3000...');
+app.get('/all-users', (req, res) => {
+	User.find().sort({ createdAt: -1 })
+	.then((result) => {
+		res.send(result);
+	})
 })
 
-const footVideoStream = fs.createReadStream('./media/foot.mp4');
-const footVideoWriteStream = fs.createWriteStream('./media/copy-foot.mp4');
-
-// footVideoStream.on('data', (chunk) => {
-// 	console.log('---- NEW CHUNK ----');
-// 	footVideoWriteStream.write(chunk);
-// });
-
-footVideoStream.pipe(footVideoWriteStream);
+app.get('/user', (req, res) => {
+	User.findById('628e036e799c230ecdecd41b')
+	.then((result) => {
+		res.send(result)
+	})
+	.catch((err) => {
+		console.log(err);
+	})
+})
