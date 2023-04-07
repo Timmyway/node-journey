@@ -28,7 +28,8 @@ app.listen(5000);
 // 	next();
 // })
 
-// Middleware & static files
+// Middlewares
+// static files
 app.use(express.static('public'));
 
 app.set('views', './views');
@@ -75,4 +76,8 @@ app.get('/user', (req, res) => {
 	.catch((err) => {
 		console.log(err);
 	})
+})
+// Respond to this message bellow: "May this Easter season bring you and your family an abundance of happiness and blessings. Wishing you all a wonderful holiday filled with joy and love"
+app.get('/easter', (req, res) => {
+	res.send('May this Easter season bring you and your family an abundance of happiness and blessings. Wishing you all a wonderful holiday filled with joy and love');
 })

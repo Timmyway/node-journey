@@ -1,25 +1,13 @@
 <%- include('./partials/header.ejs') %>
-<body>
-    <%- include('./partials/navbar.ejs') %>
-    <h4>Pokemon, attrapez les tous !</h4>
-    <% if (pokemons.length > 0) { %>
-        <div class="d-flex flex-wrap">
-        <% pokemons.forEach(pokemon => { %>
-            <div class="card mx-2" style="width: 24rem;">                
-                <div class="card-body">
-                    <h3 class="card-title"><%= pokemon.name %> | Type: <%= pokemon.type %></h3>                    
-                    <h4 class="card-title">Stats</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item"><%= pokemon.attack %></li>
-                        <li class="list-group-item"><%= pokemon.specialAttack %></li>
-                        <li class="list-group-item"><%= pokemon.defense %></li>
-                        <li class="list-group-item"><%= pokemon.specialDefense %></li>
-                        <li class="list-group-item"><%= pokemon.speed %></li>
-                    </ul>
-                </div>                
-            </div>
-        <% }) %>
+    <div class="container-fluid">
+        <h1>Convertisseur d'image</h1>
+        <div class="container">
+            <form action="">
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Image multiple</label>
+                    <input class="form-control" type="file" id="formFileMultiple" multiple>
+                </div>
+            </form>
         </div>
-    <% } %>
-</body>
-</html>
+    </div>
+<%- include('./partials/footer.ejs') %>
