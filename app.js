@@ -2,6 +2,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const mongoose = require('mongoose');
 const User = require('./Models/user');
+const path = require('path');
 
 const dbURI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
 
@@ -30,7 +31,7 @@ app.listen(5000);
 
 // Middlewares
 // static files
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', './views');
 // Register view engine
