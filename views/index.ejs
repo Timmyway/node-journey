@@ -1,13 +1,68 @@
 <%- include('./partials/header.ejs') %>
-    <div class="container-fluid">
-        <h1 class="px-2 py-4 bg-red-400">Convertisseur d'image</h1>
-        <div class="p-4">
-            <form action="">
-                <div class="mb-3">
-                    <label for="formFileMultiple" class="form-label">Image multiple</label>
-                    <input class="form-control" type="file" id="formFileMultiple" multiple>
-                </div>
-            </form>
-        </div>
+<div id="app">
+    <div class="p-2">
+        <h1 class="px-2 py-4 text-amber-500 text-2xl font-bold">Gestion des notes</h1>
+        <section class="p-2">
+            <button @click="display.addForm = !display.addForm">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div v-if="display.addForm" class="border border-solid border-gray-400 px-4 py-2 bg-gray-100 shadow-sm">
+                <form class="space-y-4 lg:space-y-6">
+                    <!-- Assuming you want to send data via POST request -->
+                    <!-- You can adjust the action attribute based on your route configuration -->
+                    <div class="flex flex-col gap-2">
+                        <label class="font-bold text-lg">Title:</label>
+                        <input
+                            class="py-2 px-2 outline-none border border-gray-700 rounded"
+                            id="note-title"
+                            type="text"                            
+                            placeholder="Enter your note title..."
+                            v-model="noteStore.form.title"
+                        >
+                    </div>                    
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-bold text-lg">Content:</label>
+                        <textarea
+                            class="py-2 px-2 outline-none border border-gray-700 rounded"
+                            id="note-content"
+                            name="content"
+                            rows="4"
+                            cols="50"
+                            placeholder="Capture your brightest ideas and thoughts here..."
+                            v-model="noteStore.form.content"                            
+                        ></textarea>
+                    </div>                            
+            
+                    <button
+                        v-show="!noteStore.form.isLoading"
+                        class="bg-amber-700 text-white px-4 py-2 font-bold rounded text-lg hover:bg-amber-600"
+                        @click.prevent="noteStore.addNote"
+                    >Save Note</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="pb-4">
+            <h2 class="font-bold text-2xl py-2 text-center">List of Notes</h2>            
+
+            <div
+                v-if="noteStore.getNotes?.length < 1"
+                class="p-2 text-gray-700"
+            >
+                Aucune note disponible pour le moment...
+            </div>
+            <div v-else class="flex flex-wrap gap-4 justify-center">
+                <template v-for="note in noteStore.getNotes">
+                    <wt-note :item="note"></wt-note>
+                </template>
+            </div>
+        </section>
     </div>
+</div>
+
+    <script src="js/app.js"></script>
 <%- include('./partials/footer.ejs') %>

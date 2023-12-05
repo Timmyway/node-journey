@@ -12,13 +12,15 @@ mongoose.connect(dbURI)
 })
 .catch((err) => console.log(err));
 
-const pokemons = require('./data.json');
-
 const express = require('express');
-const exp = require('constants');
-const app = express();
 
-app.listen(5000);
+const pageRoutes = require('./routes/page');
+const noteRoutes = require('./routes/note');
+
+const exp = require('constants');
+const bodyParser = require('body-parser');
+
+const app = express();
 
 // Custom middleware
 // app.use((req, res, next) => {	
@@ -30,24 +32,17 @@ app.listen(5000);
 // })
 
 // Middlewares
+app.use(bodyParser.urlencoded({extended: false}));
+// Middleware to parse JSON
+app.use(bodyParser.json());
+app.use(pageRoutes);
+app.use(noteRoutes);
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', './views');
 // Register view engine
 app.set('view engine', 'ejs');
-
-app.get('/', function (req, res) {	
-	res.render('index', { pokemons });
-})
-
-app.get('/about', function (req, res) {
-	res.render('about');
-})
-
-app.get('/about-me', (req, res) => {
-	res.redirect('/about');
-})
 
 app.get('/add-user', (req, res) => {
 	const user = new User({
@@ -82,3 +77,5 @@ app.get('/user', (req, res) => {
 app.get('/easter', (req, res) => {
 	res.send('May this Easter season bring you and your family an abundance of happiness and blessings. Wishing you all a wonderful holiday filled with joy and love');
 })
+
+app.listen(5000);
