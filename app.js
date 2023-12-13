@@ -16,6 +16,7 @@ const express = require('express');
 
 const pageRoutes = require('./routes/page');
 const noteRoutes = require('./routes/note');
+const authRoutes = require('./routes/auth');
 
 const exp = require('constants');
 const bodyParser = require('body-parser');
@@ -48,6 +49,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(pageRoutes);
 app.use(noteRoutes);
+app.use(authRoutes);
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
 

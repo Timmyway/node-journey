@@ -1,0 +1,84 @@
+<%- include('../partials/headerGuest.ejs') %>
+<main>
+    <section class="grid grid-cols-2">
+        <div
+            class="p-4 bg-gray-50 text-white bg-no-repeat bg-center"
+            style="background-image: url('images/pages/login.WebP')"
+        >
+            <section class="flex justify-center items-center h-screen text-center relative">
+                <div class="absolute top-2 left-2">
+                    <a href="/">
+                        <button class="h-12 w-12 p-1 bg-white shadow rounded flex justify-center items-center text-secondary font-bold">                            
+                            <svg fill="#1C2033" width="52" height="52" version="1.1" id="lni_lni-arrow-left" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                 y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+                                <path d="M56,29.8H13.3l17-17.3c0.9-0.9,0.9-2.3,0-3.2c-0.9-0.9-2.3-0.9-3.2,0l-20.7,21c-0.9,0.9-0.9,2.3,0,3.2l20.7,21
+                                c0.4,0.4,1,0.7,1.6,0.7c0.6,0,1.1-0.2,1.6-0.6c0.9-0.9,0.9-2.3,0-3.2L13.4,34.3H56c1.2,0,2.2-1,2.2-2.2C58.2,30.8,57.2,29.8,56,29.8
+                                z"/>
+                            </svg>                            
+                        </button>
+                    </a>
+                </div>
+            </section>
+        </div>
+        <article class="bg-gray-50 flex justify-center items-center h-screen px-8 py-4">
+            <div class="bg-white shadow-lg rounded-xl w-full flex justify-center py-4 xl:py-8">
+                <div class="max-w-xl px-8 py-4">
+                    <div class="flex flex-col gap-3 items-center max-w-xs text-center mx-auto text-c">
+                        <div class="mb-6">
+                            <img src="images/logo.jpg" alt="" class="w-40">
+                        </div>
+                        <h2 class="font-bold text-2xl">Connectez-vous pour accéder à votre compte</h2>
+                        <p class="text-sm">
+                            Veuillez entrer votre adresse email ainsi que votre mot de passe
+                        </p>
+                    </div>
+                    <form action="/login" method="POST">
+                        <div class="form-group my-2">
+                            <label for="username" class="mb-1 font-bold">Email *</label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="text"
+                                class="form-control"
+                                placeholder="exemple@email.com"
+                                autocomplete="username"
+                                required
+                            >
+                            <span v-if="errors?.email" class="text-danger">@{{ errors?.email[0] }}</span>
+                        </div>
+                        <div class="form-group my-4">
+                            <label for="password" class="mb-1 font-bold">Mot de passe *</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                class="form-control"
+                                placeholder="Entrez votre mot de passe"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <span v-if="errors?.password" class="text-danger">@{{ errors?.password[0] }}</span>
+                        </div>
+                        <div class="form-group mt-8">
+                            <button
+                                class="btn bg-secondary w-full px-4 py-3 rounded-lg text-theme mt-2 text-2xl"
+                                type="submit"
+                            >Se connecter</button>
+                            <span v-if="errors?.login" class="text-danger">@{{ errors?.login }}</span>
+                        </div>
+                    </form>
+                    <div class="flex p-4 text-c">
+                        <p class="mb-4 max-w-xs">
+                            Si vous n’avez pas encore de compte, créez le en moins d’une minute en participant à un de nos jeux
+                        </p>
+                        <a
+                            class="px-4 py-2 text-secondary text-xl flex-wrap"
+                            href="{{ route('site.game_sequences') }}" class="text-secondary"
+                        >Jouer</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+</main>
+<%- include('../partials/footer.ejs') %>
