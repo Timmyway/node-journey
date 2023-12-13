@@ -16,18 +16,17 @@ exports.storeNote = (req, res, next) => {
     const title = req.body.title;
     const thumbnailUrl = req.body.thumbnail;
     const content = req.body.content;
-
-    console.log('==> Store note backend: ', title, thumbnailUrl, content)
+    
     const note = new Note({
         title,
         thumbnailUrl,
-        content
+        content,
+        userId: req.user
     });
 
     note
         .save()
-        .then(result => {
-            console.log('Created a new note');
+        .then(result => {            
             res.json({ response: 'created' });
         })
         .catch(err => {

@@ -32,6 +32,17 @@ const app = express();
 // })
 
 // Middlewares
+app.use((req, res, next) => {
+	console.log('===================> Middleware')
+	User.findById('628e036e799c230ecdecd41b')
+		.then(user => {			
+			req.user = user;			
+			next();
+		})
+		.catch(err => {
+			console.log(err);
+		});
+});
 app.use(bodyParser.urlencoded({extended: false}));
 // Middleware to parse JSON
 app.use(bodyParser.json());
