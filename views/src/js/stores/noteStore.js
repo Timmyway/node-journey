@@ -1,16 +1,20 @@
 import { defineStore } from 'pinia'
 import { computed, ref, reactive } from 'vue';
 import noteApi from '../apis/noteApi';
+import { useAppStore } from './appStore';
 
 export const useNoteStore = defineStore('notes', () => {
 
     const notes = ref({});
+    const appStore = useAppStore();
 
     const form = reactive({
+        id: '',
         title: '',
         content: '',
-        isLoading: false
-    })
+        isLoading: false,
+        mode: 'add'
+    });
 
     async function fetchNotes() {
         console.log('Fetch notes...')
@@ -30,7 +34,7 @@ export const useNoteStore = defineStore('notes', () => {
         return notes.value;
     });
 
-    async function addNote() {
+    async function addNote() {        
         setTimeout(() => {
             form.isLoading = true;
             reset();
@@ -43,20 +47,58 @@ export const useNoteStore = defineStore('notes', () => {
         }
         try {
             const response = await noteApi.addNote(payload);
+            if (response.data.response === 'created') {
+                appStore.closePopup('addForm');
+            }
             form.isLoading = false;
         } catch (err) {
             form.isLoading = false;
         }        
+    }
 
-        console.log('====> Response from store: ', response)
+    function addForm() {
+        reset();
+        appStore.openPopup('addForm');
+    }
+
+    function editForm(noteId, title, content) {
+        form.mode = 'edit';        
+        form.title = title;
+        form.content = content;
+        form.id = noteId;
+        
+        appStore.openPopup('addForm');
+    }
+
+    async function editNote() {        
+        setTimeout(() => {
+            form.isLoading = true;
+            reset();
+            fetchNotes();
+        }, 400);
+        console.log(`Edit note with id ${form.id}`);
+        const { id, title, content } = form;
+        const payload = { noteId: id, title, content };        
+        console.log('Payload: ', payload)
+        try {
+            const response = await noteApi.editNote(payload);
+            if (response.data.response === 'updated') {
+                appStore.closePopup('addForm');
+            }            
+            form.isLoading = false;
+        } catch (err) {
+            form.isLoading = false;
+        }        
     }
 
     function reset() {
+        form.mode = 'add';
+        form.id = '';
         form.title = '';
         form.content = '';
     }
 
     fetchNotes();
 
-    return { form, getNotes, addNote }
+    return { form, getNotes, addNote, editNote, addForm, editForm }
 })

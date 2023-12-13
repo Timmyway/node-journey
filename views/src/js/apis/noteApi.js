@@ -15,5 +15,12 @@ export default {
         } catch(error) {
             throw error;
         }
+    },
+    async editNote(payload) {
+        try {
+            return await Api.post('/api/notes/edit', payload);
+        } catch(error) {
+            throw error;
+        }
     }
 }
