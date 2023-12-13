@@ -6,5 +6,6 @@ const noteController = require('../controllers/NoteController');
 
 router.post('/api/notes', noteController.storeNote);
 router.post('/api/notes/edit', noteController.editNote);
+router.post('/api/notes/delete', noteController.deleteNote);
 
 module.exports = router;

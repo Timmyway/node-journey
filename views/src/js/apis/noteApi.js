@@ -22,5 +22,12 @@ export default {
         } catch(error) {
             throw error;
         }
+    },
+    async deleteNote(payload) {
+        try {
+            return await Api.post('/api/notes/delete', payload);
+        } catch(error) {
+            throw error;
+        }
     }
 }

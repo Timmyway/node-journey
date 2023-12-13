@@ -49,6 +49,15 @@ exports.editNote = (req, res, next) => {
         .then(result => {
             console.log('The note has been updated!');
             res.json({ response: 'updated' });
-        })
+        }) 
         .catch(err => console.log(err));
+}
+
+exports.deleteNote = (req, res, next) => {
+    const noteId = req.body.noteId;
+    Note.findByIdAndRemove(noteId)
+        .then(() => {
+            res.json({ response: 'deleted' })
+        })
+        .catch(err => console.log(err))
 }

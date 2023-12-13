@@ -10,14 +10,18 @@ const noteStore = useNoteStore();
 function edit(noteId, title, content) {
     noteStore.editForm(noteId, title, content);
 }
+
+function destroy(noteId) {
+    noteStore.deleteNote(noteId);
+}
 </script>
 
 <template>
-<div class="p-2 py-3 bg-yellow-200 border-l-yellow-700 border-l-4 w-full max-w-xs">
+<div class="p-2 py-3 bg-yellow-200 border-l-yellow-700 border-l-4 w-full max-w-xs hover:border-l-blue-700">
     <div class="space-y-4">
         <h6 class="font-bold text-lg">{{ item?.title }}</h6>
         <p class="text-gray-700 leading-relaxed max-h-20 truncate">{{ item?.content }}</p>
-        <div>        
+        <div class="flex justify-center items-center gap-4">
             <button class="bg-gray-600 text-white rounded px-2 py-1 w-10 h-10 text-center hover:bg-blue-600"
                 @click="edit(item._id, item.title, item.content)"
             >
@@ -27,6 +31,26 @@ function edit(noteId, title, content) {
                     c-0.3,0.8-0.1,1.6,0.3,2.2c0.5,0.6,1.2,1,2.1,1h0.4l17.1-5.7c0.8-0.3,1.5-0.7,2-1.3l37.5-37.4c0.6-0.6,1-1.5,1-2.4
                     S61.9,13.7,61.2,13z M20.6,52.1c-0.1,0.1-0.2,0.1-0.3,0.2L7.4,56.6l4.3-12.9c0-0.1,0.1-0.2,0.2-0.3L39.4,16l8.7,8.7L20.6,52.1z
                     M51.2,21.5l-8.7-8.7l6.1-6.1c2.9,2.8,5.8,5.8,8.6,8.7L51.2,21.5z"/>
+                </svg>
+            </button>
+
+            <button class="bg-gray-600 text-white rounded px-2 py-1 w-10 h-10 text-center hover:bg-red-600"
+                @click="destroy(item._id)"
+            >            
+                <svg fill="#FEFEFE" width="24" height="24" version="1.1" id="lni_lni-trash-can" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                    y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+                    <g>
+                        <path d="M48.9,8.8h-7.7V7.1c0-3-2.4-5.4-5.4-5.4h-7.7c-3,0-5.4,2.4-5.4,5.4v1.7h-7.7c-2.9,0-5.3,2.4-5.3,5.3v3c0,2.2,1.3,4,3.2,4.8
+                            l1.6,34.6c0.2,3.3,2.8,5.8,6.1,5.8h22.5c3.3,0,6-2.6,6.1-5.8L51,21.8c1.9-0.8,3.2-2.7,3.2-4.8v-3C54.2,11.2,51.8,8.8,48.9,8.8z
+                            M27.3,7.1c0-0.5,0.4-0.9,0.9-0.9h7.7c0.5,0,0.9,0.4,0.9,0.9v1.7h-9.4V7.1z M14.3,14.1c0-0.4,0.3-0.8,0.8-0.8h33.8
+                            c0.4,0,0.8,0.3,0.8,0.8v3c0,0.4-0.3,0.8-0.8,0.8H15.1c-0.4,0-0.8-0.3-0.8-0.8V14.1z M43.2,57.8H20.8c-0.9,0-1.6-0.7-1.6-1.5
+                            l-1.6-33.9h28.9l-1.6,33.9C44.8,57.1,44.1,57.8,43.2,57.8z"/>
+                        <path d="M32,32.4c-1.2,0-2.3,1-2.3,2.3v12.7c0,1.2,1,2.3,2.3,2.3c1.2,0,2.3-1,2.3-2.3V34.7C34.3,33.4,33.2,32.4,32,32.4z"/>
+                        <path d="M40,34.4c-1.3-0.1-2.3,0.8-2.4,2.1l-0.6,8.8c-0.1,1.2,0.8,2.3,2.1,2.4c0.1,0,0.1,0,0.2,0c1.2,0,2.2-0.9,2.2-2.1l0.6-8.8
+                            C42.1,35.5,41.2,34.5,40,34.4z"/>
+                        <path d="M23.9,34.4c-1.2,0.1-2.2,1.2-2.1,2.4l0.7,8.8c0.1,1.2,1.1,2.1,2.2,2.1c0.1,0,0.1,0,0.2,0c1.2-0.1,2.2-1.2,2.1-2.4l-0.7-8.8
+                            C26.3,35.2,25.2,34.3,23.9,34.4z"/>
+                    </g>
                 </svg>
             </button>
         </div>

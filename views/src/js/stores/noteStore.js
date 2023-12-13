@@ -91,6 +91,19 @@ export const useNoteStore = defineStore('notes', () => {
         }        
     }
 
+    async function deleteNote(noteId) {
+        console.log(`Delete note with id ${noteId}`);        
+        try {
+            const response = await noteApi.deleteNote( { noteId });
+            if (response.data.response === 'deleted') {
+                console.log('====> Deleted successfully')
+                fetchNotes();
+            }            
+        } catch (err) {            
+            console.log(err);
+        }
+    }
+
     function reset() {
         form.mode = 'add';
         form.id = '';
@@ -98,7 +111,19 @@ export const useNoteStore = defineStore('notes', () => {
         form.content = '';
     }
 
+    function refresh() {
+        notes.value = [];
+        setTimeout(() => {
+            fetchNotes();
+        }, 250)
+    }
+
     fetchNotes();
 
-    return { form, getNotes, addNote, editNote, addForm, editForm }
+    return { 
+        form, getNotes, 
+        addForm, editForm,
+        addNote, editNote, deleteNote, 
+        refresh
+    }
 })
