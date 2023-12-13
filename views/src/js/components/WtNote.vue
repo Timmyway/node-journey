@@ -18,7 +18,10 @@ function destroy(noteId) {
 
 <template>
 <div class="p-2 py-3 bg-yellow-200 border-l-yellow-700 border-l-4 w-full max-w-xs hover:border-l-blue-700">
-    <div class="space-y-4">
+    <div class="space-y-4">        
+        <h6 class="text-base text-gray-600">
+            Author: {{ item?.userId?.username }}
+        </h6>
         <h6 class="font-bold text-lg">{{ item?.title }}</h6>
         <p class="text-gray-700 leading-relaxed max-h-20 truncate">{{ item?.content }}</p>
         <div class="flex justify-center items-center gap-4">

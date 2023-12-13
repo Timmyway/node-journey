@@ -2,6 +2,7 @@ const Note = require("../models/note");
 
 exports.getNotes = (req, res, next) => {
     Note.find()
+        .populate('userId', 'username')
         .then(notes => {
             res.json({ notes });
         })
