@@ -4,21 +4,28 @@ const mongoose = require('mongoose');
 const User = require('./Models/user');
 const path = require('path');
 
-const dbURI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
+const MONGODB_URI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
 
-mongoose.connect(dbURI)
+mongoose.connect(MONGODB_URI)
 .then((result) => {
 	console.log('Connected to database');
 })
 .catch((err) => console.log(err));
 
 const express = require('express');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const pageRoutes = require('./routes/page');
 const noteRoutes = require('./routes/note');
 const authRoutes = require('./routes/auth');
 
 const exp = require('constants');
+const mongoStore = new MongoDBStore({
+	uri: MONGODB_URI,
+	collection: 'sessions'
+});
+
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -33,8 +40,7 @@ const app = express();
 // })
 
 // Middlewares
-app.use((req, res, next) => {
-	console.log('===================> Middleware')
+app.use((req, res, next) => {	
 	User.findById('628e036e799c230ecdecd41b')
 		.then(user => {			
 			req.user = user;			
@@ -44,6 +50,7 @@ app.use((req, res, next) => {
 			console.log(err);
 		});
 });
+app.use(session({ secret: 'a4f5hh4so#-_8Apo_9h5j77fhcmfl-é@4', resave: false, saveUninitialized: false, store: mongoStore }))
 app.use(bodyParser.urlencoded({extended: false}));
 // Middleware to parse JSON
 app.use(bodyParser.json());
