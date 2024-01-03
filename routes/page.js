@@ -3,11 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 const noteController = require('../controllers/NoteController');
+const isAuthMiddleware = require('../middlewares/isAuth');
 
-router.get('/', function (req, res) {
-	if (!req.session.isLoggedIn) {
-		return res.redirect('/login');
-	}
+router.get('/', isAuthMiddleware, function (req, res) {	
 	res.render('index');
 });
 router.get('/api/notes', noteController.getNotes);
