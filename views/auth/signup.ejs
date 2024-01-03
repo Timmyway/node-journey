@@ -33,6 +33,7 @@
                         </p>
                     </div>
                     <form action="/signup" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="form-group my-2">
                             <label for="username" class="mb-1 font-bold">Username *</label>
                             <input

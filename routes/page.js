@@ -6,18 +6,12 @@ const noteController = require('../controllers/NoteController');
 const isAuthMiddleware = require('../middlewares/isAuth');
 
 router.get('/', isAuthMiddleware, function (req, res) {	
-	res.render('index', {
-		isLoggedIn: req.session.isLoggedIn,
-		csrfToken: req.csrfToken()
-	});
+	res.render('index');
 });
 router.get('/api/notes', noteController.getNotes);
 
 router.get('/about', function (req, res) {
-	res.render('about', {
-		isLoggedIn: req.session.isLoggedIn,
-		csrfToken: req.csrfToken()
-	});
+	res.render('about');
 });
 
 router.get('/about-me', (req, res) => {

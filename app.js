@@ -57,6 +57,11 @@ app.use(csrf());
 // 			console.log(err);
 // 		});
 // });
+app.use((req, res, next) => {
+	res.locals.isAuthenticated = req.session.isLoggedIn;
+	res.locals.csrfToken = req.csrfToken();
+	next();
+})
 app.use(pageRoutes);
 app.use(noteRoutes);
 app.use(authRoutes);
