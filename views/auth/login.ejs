@@ -2,7 +2,7 @@
 <main>
     <section class="grid grid-cols-2">
         <div
-            class="p-4 bg-gray-50 text-white bg-no-repeat bg-center"
+            class="p-4 bg-gray-50 text-white bg-no-repeat bg-center bg-cover"
             style="background-image: url('images/pages/login.WebP')"
         >
             <section class="flex justify-center items-center h-screen text-center relative">
@@ -20,7 +20,7 @@
                 </div>
             </section>
         </div>
-        <article class="bg-gray-50 flex justify-center items-center h-screen px-8 py-4">
+        <article class="bg-gray-50 flex justify-center h-screen px-8 py-4">
             <div class="bg-white shadow-lg rounded-xl w-full flex justify-center py-4 xl:py-8">
                 <div class="max-w-xl px-8 py-4">
                     <div class="flex flex-col gap-3 items-center max-w-xs text-center mx-auto text-c">
@@ -60,16 +60,22 @@
                         </div>
                         <div class="form-group mt-8">
                             <button
-                                class="btn bg-secondary w-full px-4 py-3 rounded-lg text-theme mt-2 text-2xl"
+                                class="btn bg-indigo-700 text-white font-bold w-full px-4 py-3 rounded-lg text-theme mt-2 text-2xl hover:bg-indigo-600"
                                 type="submit"
                             >Se connecter</button>                            
                         </div>
                     </form>
                     <div class="flex p-4 text-c">
-                        <p class="mb-4 max-w-xs">
+                        <p class="mb-2 max-w-xs">
                             Si vous n’avez pas encore de compte, créez le en moins d’une minute <a href="/signup" class="underline text-blue-600">ici.</a>
-                        </p>                        
+                        </p>
                     </div>
+                    
+                    <% if (errorMessage && errorMessage?.length > 0) { %>
+                        <div class="font-bold px-4 py-2 bg-red-300">
+                            <span><%= errorMessage %></span>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </article>

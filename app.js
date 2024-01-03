@@ -2,8 +2,9 @@ const fs = require('fs');
 const _ = require('lodash');
 const mongoose = require('mongoose');
 const path = require('path');
-const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
+const flash = require('connect-flash');
 
 const MONGODB_URI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
 
@@ -47,6 +48,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Middleware to parse JSON
 app.use(bodyParser.json());
 app.use(csrf());
+app.use(flash());
 // app.use((req, res, next) => {	
 // 	User.findById('628e036e799c230ecdecd41b')
 // 		.then(user => {			

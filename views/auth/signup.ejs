@@ -1,8 +1,8 @@
 <%- include('../partials/headerGuest.ejs') %>
 <main>
-    <section class="grid grid-cols-2">
+    <section class="grid grid-cols-1 lg:grid-cols-2">
         <div
-            class="p-4 bg-gray-50 text-white bg-no-repeat bg-center"
+            class="p-4 bg-gray-50 text-white bg-no-repeat bg-center bg-cover hidden lg:block"
             style="background-image: url('images/pages/login.WebP')"
         >
             <section class="flex justify-center items-center h-screen text-center relative">
@@ -84,16 +84,22 @@
                         </div>
                         <div class="form-group mt-8">
                             <button
-                                class="btn bg-secondary w-full px-4 py-3 rounded-lg text-theme mt-2 text-2xl"
+                                class="btn font-bold text-white bg-indigo-700 w-full px-4 py-3 rounded-lg text-theme mt-2 text-2xl hover:bg-indigo-600"
                                 type="submit"
                             >S'inscrire</button>                            
                         </div>
                     </form>
                     <div class="flex p-4 text-c">
                         <p class="mb-4 max-w-xs">
-                            Si vous avez déjà un compte, connectez-vous <a href="/login" class="underline text-blue-600">ici.</a>
+                            Si vous avez déjà un compte, <a href="/login" class="underline text-blue-600">connectez-vous ici</a>.</a>
                         </p>                        
                     </div>
+
+                    <% if (errorMessage && errorMessage?.length > 0) { %>
+                        <div class="font-bold px-4 py-2 bg-red-300">
+                            <span><%= errorMessage %></span>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </article>
