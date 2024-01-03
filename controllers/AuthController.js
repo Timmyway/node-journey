@@ -11,7 +11,8 @@ exports.signupPage = (req, res, next) => {
 exports.loginPage = (req, res, next) => {
     res.render('auth/login', {
         path: '/login',
-        pageTitle: 'Login page'
+        pageTitle: 'Login page',
+        csrfToken: req.csrfToken(true)
     });
 };
 
@@ -85,5 +86,5 @@ exports.logout = (req, res, next) => {
         console.log(err);
     });
 
-    res.redirect('/');
+    res.redirect('/');    
 }

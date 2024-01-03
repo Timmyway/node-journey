@@ -3,6 +3,8 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const User = require('./Models/user');
 const path = require('path');
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
 
 const MONGODB_URI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
 
@@ -27,7 +29,6 @@ const mongoStore = new MongoDBStore({
 });
 
 const bodyParser = require('body-parser');
-
 const app = express();
 
 // Custom middleware
@@ -40,6 +41,12 @@ const app = express();
 // })
 
 // Middlewares
+app.use(session({ secret: 'a4f5hh4so#-_8Apo_9h5j77fhcmfl-é@4', resave: false, saveUninitialized: false, store: mongoStore }))
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: false}));
+// Middleware to parse JSON
+app.use(bodyParser.json());
+app.use(csrf());
 app.use((req, res, next) => {	
 	User.findById('628e036e799c230ecdecd41b')
 		.then(user => {			
@@ -50,10 +57,6 @@ app.use((req, res, next) => {
 			console.log(err);
 		});
 });
-app.use(session({ secret: 'a4f5hh4so#-_8Apo_9h5j77fhcmfl-é@4', resave: false, saveUninitialized: false, store: mongoStore }))
-app.use(bodyParser.urlencoded({extended: false}));
-// Middleware to parse JSON
-app.use(bodyParser.json());
 app.use(pageRoutes);
 app.use(noteRoutes);
 app.use(authRoutes);
