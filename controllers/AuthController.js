@@ -1,4 +1,4 @@
-const User = require("../Models/user");
+const User = require("../models/user");
 const bcrypt = require('bcryptjs');
 
 exports.signupPage = (req, res, next) => {
@@ -33,7 +33,7 @@ exports.signup = (req, res, next) => {
                 return res.redirect('/signup');
             }
 
-            return bcrypt.hash(password, 12);                    
+            return bcrypt.hash(password, 12);
         })
         .then((hashedPassword) => {
             const user = new User({

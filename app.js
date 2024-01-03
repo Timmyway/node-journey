@@ -1,7 +1,6 @@
 const fs = require('fs');
 const _ = require('lodash');
 const mongoose = require('mongoose');
-const User = require('./Models/user');
 const path = require('path');
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
@@ -21,6 +20,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const pageRoutes = require('./routes/page');
 const noteRoutes = require('./routes/note');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 const exp = require('constants');
 const mongoStore = new MongoDBStore({
@@ -47,58 +47,25 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Middleware to parse JSON
 app.use(bodyParser.json());
 app.use(csrf());
-app.use((req, res, next) => {	
-	User.findById('628e036e799c230ecdecd41b')
-		.then(user => {			
-			req.user = user;			
-			next();
-		})
-		.catch(err => {
-			console.log(err);
-		});
-});
+// app.use((req, res, next) => {	
+// 	User.findById('628e036e799c230ecdecd41b')
+// 		.then(user => {			
+// 			req.user = user;			
+// 			next();
+// 		})
+// 		.catch(err => {
+// 			console.log(err);
+// 		});
+// });
 app.use(pageRoutes);
 app.use(noteRoutes);
 app.use(authRoutes);
+app.use(userRoutes);
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', './views');
 // Register view engine
 app.set('view engine', 'ejs');
-
-app.get('/add-user', (req, res) => {
-	const user = new User({
-		username: 'Tim',
-		email: 'fr2devkontiki@gmail.com',
-		password: 'Kontiki123'
-	});
-
-	user.save()
-	.then((result) => {
-		res.send(result); 
-	})
-})
-
-app.get('/all-users', (req, res) => {
-	User.find().sort({ createdAt: -1 })
-	.then((result) => {
-		res.send(result);
-	})
-})
-
-app.get('/user', (req, res) => {
-	User.findById('628e036e799c230ecdecd41b')
-	.then((result) => {
-		res.send(result)
-	})
-	.catch((err) => {
-		console.log(err);
-	})
-})
-// Respond to this message bellow: "May this Easter season bring you and your family an abundance of happiness and blessings. Wishing you all a wonderful holiday filled with joy and love"
-app.get('/easter', (req, res) => {
-	res.send('May this Easter season bring you and your family an abundance of happiness and blessings. Wishing you all a wonderful holiday filled with joy and love');
-})
 
 app.listen(5000);
