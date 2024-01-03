@@ -4,7 +4,10 @@ const router = express.Router();
 
 const noteController = require('../controllers/NoteController');
 
-router.get('/', function (req, res) {	
+router.get('/', function (req, res) {
+	if (!req.session.isLoggedIn) {
+		return res.redirect('/login');
+	}
 	res.render('index');
 });
 router.get('/api/notes', noteController.getNotes);

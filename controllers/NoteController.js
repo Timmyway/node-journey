@@ -12,8 +12,7 @@ exports.getNotes = (req, res, next) => {
         })
 }
 
-exports.storeNote = (req, res, next) => {
-    console.log('===> STORE note');
+exports.storeNote = (req, res, next) => {    
     const title = req.body.title;
     const thumbnailUrl = req.body.thumbnail;
     const content = req.body.content;
@@ -25,8 +24,7 @@ exports.storeNote = (req, res, next) => {
         userId: req.user
     });
 
-    note
-        .save()
+    note.save()
         .then(result => {            
             res.json({ response: 'created' });
         })
