@@ -31,10 +31,11 @@
                     </svg>
 
                 </button>
-            </div>
+            </div>            
             <wt-note-form
                 :visible="appStore.display.addForm"
                 :mode="noteStore.form.mode"
+                token="<%= csrfToken %>"
             ></wt-note-form>
         </section>
 
@@ -55,5 +56,5 @@
     </div>
 </div>
 
-    <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 <%- include('./partials/footer.ejs') %>

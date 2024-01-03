@@ -34,7 +34,7 @@ export const useNoteStore = defineStore('notes', () => {
         return notes.value;
     });
 
-    async function addNote() {        
+    async function addNote(token) {        
         setTimeout(() => {
             form.isLoading = true;
             reset();
@@ -43,7 +43,8 @@ export const useNoteStore = defineStore('notes', () => {
         console.log('Add new note...');
         const payload = {
             title: form.title,
-            content: form.content
+            content: form.content,
+            _csrf: token
         }
         try {
             const response = await noteApi.addNote(payload);
@@ -70,7 +71,7 @@ export const useNoteStore = defineStore('notes', () => {
         appStore.openPopup('addForm');
     }
 
-    async function editNote() {        
+    async function editNote(token) {        
         setTimeout(() => {
             form.isLoading = true;
             reset();
@@ -78,7 +79,11 @@ export const useNoteStore = defineStore('notes', () => {
         }, 400);
         console.log(`Edit note with id ${form.id}`);
         const { id, title, content } = form;
-        const payload = { noteId: id, title, content };        
+        const payload = {
+            noteId: id,
+            title, content,
+            _csrf: token
+        };
         console.log('Payload: ', payload)
         try {
             const response = await noteApi.editNote(payload);
@@ -99,7 +104,7 @@ export const useNoteStore = defineStore('notes', () => {
                 console.log('====> Deleted successfully')
                 fetchNotes();
             }            
-        } catch (err) {            
+        } catch (err) {
             console.log(err);
         }
     }

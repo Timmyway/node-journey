@@ -4,26 +4,27 @@ import WtDialog from '../components/WtDialog.vue';
 
 const props = defineProps({    
     mode: { type: String, default: 'add' },
-    visible: { type: Boolean, default: false }
+    visible: { type: Boolean, default: false },
+    token: { type: String, default: '' }
 });
 
 const noteStore = useNoteStore();
 
 function action() {
     if (props.mode === 'add') {
-        noteStore.addNote();
+        noteStore.addNote(props.token);
     } else {
-        noteStore.editNote();
+        noteStore.editNote(props.token);
     }
 }
 </script>
 
 <template>
 <wt-dialog :visible="visible">
-    <template #content>
-        Mode : {{ mode }}
+    <template #content>        
         <div class="border border-solid border-gray-400 px-4 py-2 bg-gray-100 shadow-sm">
             <form class="space-y-4 lg:space-y-6">
+                <input type="hidden" name="_csrf" :value="token">
                 <!-- Assuming you want to send data via POST request -->
                 <!-- You can adjust the action attribute based on your route configuration -->                
                 <div v-if="mode === 'edit'" class="flex flex-col gap-2">                    
