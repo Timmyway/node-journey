@@ -1,6 +1,7 @@
 <script setup>
 import { useNoteStore } from '../stores/noteStore';
 import WtDialog from '../components/WtDialog.vue';
+import Dropdown from 'primevue/dropdown';
 
 const props = defineProps({    
     mode: { type: String, default: 'add' },
@@ -11,6 +12,10 @@ const props = defineProps({
 const noteStore = useNoteStore();
 
 function action() {
+    if (!noteStore.validate()) {
+        alert('Some fields are missing');
+        return;
+    }
     if (props.mode === 'add') {
         noteStore.addNote(props.token);
     } else {
@@ -36,7 +41,16 @@ function action() {
                         v-model="noteStore.form.id"
                     >
                 </div>
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded shadow-sm" :style="{ backgroundColor: noteStore.form.color?.hex}"></div>                        
+                        <Dropdown
+                            v-model="noteStore.form.color"
+                            :options="noteStore.getColors"
+                            optionLabel="name"
+                            placeholder="Select a color" class="w-full md:w-14rem"
+                        />
+                    </div>
                     <label class="font-bold text-lg">Title:</label>
                     <input
                         class="py-2 px-2 outline-none border border-gray-700 rounded"
@@ -56,7 +70,8 @@ function action() {
                         rows="4"
                         cols="50"
                         placeholder="Capture your brightest ideas and thoughts here..."
-                        v-model="noteStore.form.content"                            
+                        v-model="noteStore.form.content"
+                        required
                     ></textarea>
                 </div>                            
 

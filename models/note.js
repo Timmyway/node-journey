@@ -14,6 +14,11 @@ const noteSchema = new Schema({
         type: String,
         required: true
     },
+    colorId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Color',
+        required: false
+    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',

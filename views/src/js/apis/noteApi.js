@@ -9,6 +9,13 @@ export default {
             throw error;
         }
     },
+    async getColors() {
+        try {
+            return await Api.get('/api/colors');
+        } catch(error) {
+            throw error;
+        }
+    },
     async addNote(payload) {
         try {
             return await Api.post('/api/notes', payload);

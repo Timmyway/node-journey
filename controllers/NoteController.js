@@ -1,8 +1,10 @@
 const Note = require("../models/note");
+const Color = require('../models/color');
 
 exports.getNotes = (req, res, next) => {
     Note.find()
-        .populate('userId', 'username')
+        .populate('userId')
+        .populate({ path: 'colorId', select: 'name hex' })
         .then(notes => {
             res.json({ notes });
         })
@@ -16,12 +18,14 @@ exports.storeNote = (req, res, next) => {
     const title = req.body.title;
     const thumbnailUrl = req.body.thumbnail;
     const content = req.body.content;
+    const color = req.body.color;
         
     const note = new Note({
         title,
         thumbnailUrl,
         content,
-        userId: req.session.user
+        userId: req.session.user,
+        colorId: color
     });
 
     note.save()
@@ -37,11 +41,13 @@ exports.editNote = (req, res, next) => {
     const noteId = req.body.noteId;
     const noteTitle = req.body.title;
     const noteContent = req.body.content;
+    const color = req.body.color;
 
     Note.findById(noteId)
         .then(note => {
             note.title = noteTitle;
             note.content = noteContent;
+            note.colorId = color;
             return note.save();
         })
         .then(result => {
@@ -58,4 +64,15 @@ exports.deleteNote = (req, res, next) => {
             res.json({ response: 'deleted' })
         })
         .catch(err => console.log(err))
+}
+
+exports.getColors = (req, res, next) => {
+    Color.find()
+        .then(colors => {
+            res.json({ colors });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        })
 }

@@ -18,15 +18,23 @@ function destroy(noteId) {
 </script>
 
 <template>
-<div class="p-2 py-3 bg-yellow-200 border-l-yellow-700 border-l-4 w-full max-w-xs hover:border-l-blue-700">
-    <div class="space-y-4">        
-        <h6 class="text-base text-gray-600">
-            Author: {{ item?.userId?.username }}
-        </h6>
-        <h6 class="font-bold text-lg">{{ item?.title }}</h6>
-        <p class="text-gray-700 leading-relaxed max-h-20 truncate">{{ item?.content }}</p>
-        <div class="flex justify-center items-center gap-4">
-            <button class="bg-gray-600 text-white rounded px-2 py-1 w-10 h-10 text-center hover:bg-blue-600"
+<div class="p-1 py-1 border-l-4 w-full max-w-xs bg-yellow-200 hover:border-l-green-400 transition"
+    :style="{ backgroundColor: item?.colorId?.hex }"
+>
+    <div class="flex flex-col gap-2 h-full">
+        <div>            
+            <h6 class="text-xs text-gray-600">
+                Author: {{ item?.userId?.username }}
+            </h6>
+            <h6 class="font-bold text-lg">{{ item?.title }}</h6>
+        </div>
+        <div class="text-gray-700 leading-relaxed max-h-20">
+            <p class="p-2">
+                {{ item?.content }}
+            </p>
+        </div>
+        <div class="flex justify-center items-center gap-4 mb-0 mt-auto py-2">
+            <button class="bg-gray-600 text-white rounded px-2 py-1 w-8 h-8 text-center flex justify-center items-center hover:bg-blue-600"
                 @click="edit(item._id, item.title, item.content)"
             >
                 <svg fill="#FEFEFE" width="24" height="24" version="1.1" id="lni_lni-pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -38,7 +46,7 @@ function destroy(noteId) {
                 </svg>
             </button>
 
-            <button class="bg-gray-600 text-white rounded px-2 py-1 w-10 h-10 text-center hover:bg-red-600"
+            <button class="bg-gray-600 text-white rounded px-2 py-1 w-8 h-8 text-center flex justify-center items-center hover:bg-red-600"
                 @click="destroy(item._id)"
             >            
                 <svg fill="#FEFEFE" width="24" height="24" version="1.1" id="lni_lni-trash-can" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"

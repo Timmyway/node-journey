@@ -6,12 +6,14 @@ import { useAppStore } from './appStore';
 export const useNoteStore = defineStore('notes', () => {
 
     const notes = ref({});
+    const colors = ref([]);
     const appStore = useAppStore();
 
     const form = reactive({
         id: '',
         title: '',
         content: '',
+        color: '',
         isLoading: false,
         mode: 'add'
     });
@@ -30,11 +32,34 @@ export const useNoteStore = defineStore('notes', () => {
         }        
     }
 
+    async function fetchColors() {
+        console.log('Fetch colors...')
+        colors.value = [];
+        try {
+            const response = await noteApi.getColors();
+            colors.value = [...response.data.colors];
+                console.log('===> Colors available: ', colors.value)            
+        } catch (error) {
+            console.log(error)
+        }        
+    }
+
     const getNotes = computed(() => {
         return notes.value;
     });
 
-    async function addNote(token) {        
+    const getColors = computed(() => {
+        return colors.value;
+    })
+
+    function validate() {
+        if (!form.title || !form.content || !form.color) {
+            return false;
+        }
+        return true;
+    }
+
+    async function addNote(token) {
         setTimeout(() => {
             form.isLoading = true;
             reset();
@@ -44,6 +69,7 @@ export const useNoteStore = defineStore('notes', () => {
         const payload = {
             title: form.title,
             content: form.content,
+            color: form.color,
             _csrf: token
         }
         try {
@@ -82,6 +108,7 @@ export const useNoteStore = defineStore('notes', () => {
         const payload = {
             noteId: id,
             title, content,
+            color: form.color,
             _csrf: token
         };
         console.log('Payload: ', payload)
@@ -100,8 +127,7 @@ export const useNoteStore = defineStore('notes', () => {
         console.log(`Delete note with id ${noteId}`);        
         try {
             const response = await noteApi.deleteNote( { noteId, _csrf: token });
-            if (response.data.response === 'deleted') {
-                console.log('====> Deleted successfully')
+            if (response.data.response === 'deleted') {                
                 fetchNotes();
             }            
         } catch (err) {
@@ -124,9 +150,10 @@ export const useNoteStore = defineStore('notes', () => {
     }
 
     fetchNotes();
+    fetchColors()
 
     return { 
-        form, getNotes, 
+        form, getNotes, getColors, validate,
         addForm, editForm,
         addNote, editNote, deleteNote, 
         refresh
