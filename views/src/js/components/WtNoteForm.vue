@@ -43,7 +43,7 @@ function action() {
                 </div>
                 <div class="flex flex-col gap-3">
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded shadow-sm" :style="{ backgroundColor: noteStore.form.color?.hex}"></div>                        
+                        <div class="w-8 h-8 rounded shadow-sm" :style="{ backgroundColor: noteStore.form.color?.hex}"></div>
                         <Dropdown
                             v-model="noteStore.form.color"
                             :options="noteStore.getColors"

@@ -1,9 +1,29 @@
 <%- include('./partials/header.ejs') %>
-    <div class="container-fluid">
-        <h1>À propos de Flashnote</h1>
-        <p class="lead">
-            Flashnote est une application qui a pour objectif de m'entrainner à NodeJS. J'ai essayé de pratiquer en construisant cette application.<br>
-            Elle utilise NodeJS bien évidement avec le framework Express. J'utilise Mongodb comme base de donnée pour stocker les notes.
-        </p>
+    <div class="container-fluid py-2 px-4 space-y-4">
+        <section>
+            <h1 class="font-bold text-2xl mb-2">À propos de Flashnote</h1>
+            <p class="lead mb-2">
+                Flashnote est une application qui a pour objectif de m'entrainner à NodeJS. J'ai essayé de pratiquer en construisant cette application.<br>
+                Elle utilise NodeJS bien évidement avec le framework Express. J'utilise Mongodb comme base de donnée pour stocker les notes.
+            </p>
+        </section>
+
+        <section>
+            <h2 class="font-bold text-2xl mb-2">À propos de moi</h2>
+            <p class="lead mb-2">
+                Vous pouvez m'appeler Tim. Développeur passionné par son métier, j'aime apprendre sur l'informatique et les technologies.<br>
+                Spécialisé dans le développement WEB, j'adore mettre en pratique mes connaissances afin de construire des applications perfomantes et utiles.<br>                
+            </p>
+        </section>
+
+        <section>
+            <div class="p-2">
+                <h3 class="font-bold text-xl mb-2">Foncionnalités :</h3>
+                <ul class="space-y-1">
+                    <li>★ Opérations basiques CRUD (liste, ajout, modification et suppression) pour gérer les notes.</li>
+                    <li>★ Support des couleurs.</li>                
+                </ul>
+            </div>
+        </section>
     </div>
 <%- include('./partials/footer.ejs') %>

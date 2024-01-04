@@ -88,11 +88,13 @@ export const useNoteStore = defineStore('notes', () => {
         appStore.openPopup('addForm');
     }
 
-    function editForm(noteId, title, content) {
+    function editForm(noteId, title, content, color) {
+        console.log('============> Edit form: ', noteId, title, content, color)
         form.mode = 'edit';        
         form.title = title;
         form.content = content;
         form.id = noteId;
+        form.color = color;
         
         appStore.openPopup('addForm');
     }

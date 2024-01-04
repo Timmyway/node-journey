@@ -8,8 +8,10 @@ const props = defineProps({
 
 const noteStore = useNoteStore();
 
-function edit(noteId, title, content) {
-    noteStore.editForm(noteId, title, content);
+function edit(note) {
+    const { _id, title, content, colorId: color } = note;
+    console.log('====> note: ', color)
+    noteStore.editForm(_id, title, content, color);
 }
 
 function destroy(noteId) {
@@ -29,13 +31,13 @@ function destroy(noteId) {
             <h6 class="font-bold text-lg">{{ item?.title }}</h6>
         </div>
         <div class="text-gray-700 leading-relaxed max-h-20">
-            <p class="p-2">
+            <p class="p-2 truncate max-h-20">
                 {{ item?.content }}
             </p>
         </div>
         <div class="flex justify-center items-center gap-4 mb-0 mt-auto py-2">
             <button class="bg-gray-600 text-white rounded px-2 py-1 w-8 h-8 text-center flex justify-center items-center hover:bg-blue-600"
-                @click="edit(item._id, item.title, item.content)"
+                @click="edit(item)"
             >
                 <svg fill="#FEFEFE" width="24" height="24" version="1.1" id="lni_lni-pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                     y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
