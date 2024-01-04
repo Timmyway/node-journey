@@ -49,7 +49,10 @@
             </div>
             <div v-else class="flex flex-wrap gap-4 justify-center">
                 <template v-for="note in noteStore.getNotes">
-                    <wt-note :item="note"></wt-note>
+                    <wt-note
+                        :item="note"
+                        token="<%= csrfToken %>"
+                    ></wt-note>
                 </template>
             </div>
         </section>

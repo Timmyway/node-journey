@@ -13,7 +13,6 @@ exports.getNotes = (req, res, next) => {
 }
 
 exports.storeNote = (req, res, next) => {    
-    console.log('===========> req user: ', req.user)
     const title = req.body.title;
     const thumbnailUrl = req.body.thumbnail;
     const content = req.body.content;
@@ -22,7 +21,7 @@ exports.storeNote = (req, res, next) => {
         title,
         thumbnailUrl,
         content,
-        userId: req.user
+        userId: req.session.user
     });
 
     note.save()

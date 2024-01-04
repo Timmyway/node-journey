@@ -2,7 +2,8 @@
 import { useNoteStore } from '../stores/noteStore';
 
 const props = defineProps({
-    item: Object
+    item: Object,
+    token: { type: String, default: '' }
 });
 
 const noteStore = useNoteStore();
@@ -12,7 +13,7 @@ function edit(noteId, title, content) {
 }
 
 function destroy(noteId) {
-    noteStore.deleteNote(noteId);
+    noteStore.deleteNote(noteId, props.token);
 }
 </script>
 

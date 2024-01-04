@@ -89,17 +89,17 @@ export const useNoteStore = defineStore('notes', () => {
             const response = await noteApi.editNote(payload);
             if (response.data.response === 'updated') {
                 appStore.closePopup('addForm');
-            }            
+            }
             form.isLoading = false;
         } catch (err) {
             form.isLoading = false;
         }        
     }
 
-    async function deleteNote(noteId) {
+    async function deleteNote(noteId, token) {
         console.log(`Delete note with id ${noteId}`);        
         try {
-            const response = await noteApi.deleteNote( { noteId });
+            const response = await noteApi.deleteNote( { noteId, _csrf: token });
             if (response.data.response === 'deleted') {
                 console.log('====> Deleted successfully')
                 fetchNotes();
