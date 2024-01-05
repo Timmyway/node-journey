@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const User = require("../models/user");
 const bcrypt = require('bcryptjs');
 
@@ -34,6 +35,12 @@ exports.signup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const passwordConfirm = req.body['password-confirm'];
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('auth/signup', {            
+            errorMessage: errors.array()
+        });
+    }
     if (password !== passwordConfirm) {
         req.flash('error', "Please use the same password as confirmation.");
         return res.redirect('/signup');
@@ -101,5 +108,5 @@ exports.logout = (req, res, next) => {
         console.log(err);
     });
 
-    res.redirect('/');    
+    return res.redirect('/login');
 }
