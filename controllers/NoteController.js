@@ -1,8 +1,8 @@
 const Note = require("../models/note");
 const Color = require('../models/color');
 
-exports.getNotes = (req, res, next) => {
-    Note.find()
+exports.getNotes = (req, res, next) => {    
+    Note.find({ userId: req.session.user._id })
         .populate('userId')
         .populate({ path: 'colorId', select: 'name hex' })
         .then(notes => {
@@ -45,6 +45,9 @@ exports.editNote = (req, res, next) => {
 
     Note.findById(noteId)
         .then(note => {
+            if (note.userId.toString() !== req.session.user._id.toString()) {
+                return res.redirect('/');
+            }
             note.title = noteTitle;
             note.content = noteContent;
             note.colorId = color;
@@ -59,7 +62,7 @@ exports.editNote = (req, res, next) => {
 
 exports.deleteNote = (req, res, next) => {
     const noteId = req.body.noteId;
-    Note.findByIdAndRemove(noteId)
+    Note.deleteOne({ _id: noteId, userId: req.session.user._id })
         .then(() => {
             res.json({ response: 'deleted' })
         })
