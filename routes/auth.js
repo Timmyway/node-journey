@@ -19,10 +19,10 @@ router.post('/signup',
             }),            
             body('password')
             .isLength({min: 8})
-            .withMessage('Votre mot de passe doit avoir 8 caractères au moins.'),
+            .withMessage('Votre mot de passe doit contenir 8 caractères au moins.'),
             body('password-confirm').custom((value, { req }) => {
                 if (value !== req.body.password) {
-                    throw new Error('Password have to match!');
+                    throw new Error("Les mots de passe ne correspondent pas. Veuillez réessayer.");
                 }
             })
     ],

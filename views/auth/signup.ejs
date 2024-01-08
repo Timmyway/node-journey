@@ -40,6 +40,7 @@
                                 class="form-control"
                                 placeholder="Comment pouvons-nous vous appeler ?"
                                 autocomplete="off"
+                                value="<%= oldInput.username %>"
                                 required
                             >                            
                         </div>
@@ -49,9 +50,10 @@
                                 id="email"
                                 name="email"
                                 type="text"
-                                class="form-control"
+                                class="form-control <%= validationErrors.find(e => e.path === 'email') ? 'border-2 border-solid border-red-600' : '' %>"
                                 placeholder="exemple@email.com"
                                 autocomplete="email"
+                                value="<%= oldInput.email %>"
                                 required
                             >                            
                         </div>
@@ -61,7 +63,7 @@
                                 id="password"
                                 name="password"
                                 type="password"
-                                class="form-control"
+                                class="form-control <%= validationErrors.find(e => e.path === 'password') ? 'border-2 border-solid border-red-600' : '' %>"
                                 placeholder="Entrez votre mot de passe"
                                 autocomplete="current-password"
                                 required
@@ -73,7 +75,7 @@
                                 id="password-confirm"
                                 name="password-confirm"
                                 type="password"
-                                class="form-control"
+                                class="form-control <%= validationErrors.find(e => e.path === 'password-confirm') ? 'border-2 border-solid border-red-600' : '' %>"
                                 placeholder="Confirmer votre mot de passe"
                                 autocomplete="off"
                                 required
@@ -93,8 +95,10 @@
                     </div>
 
                     <% if (errorMessage && errorMessage?.length > 0) { %>
-                        <div class="font-bold px-4 py-2 bg-red-300">
-                            <span><%= errorMessage %></span>
+                        <div class="font-bold px-4 py-2 bg-red-300 flex flex-col gap-2">
+                            <% errorMessage.forEach(function(error) { %>
+                                <span>★ <%= error.msg %></span>
+                            <% }); %>
                         </div>
                     <% } %>
                 </div>

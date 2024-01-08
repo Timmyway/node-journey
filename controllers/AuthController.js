@@ -12,7 +12,9 @@ exports.signupPage = (req, res, next) => {
     res.render('auth/signup', {
         path: '/signup',
         pageTitle: 'Signup page',
-        errorMessage: message
+        errorMessage: message,
+        oldInput: { username: "", email: "", password: "" },
+        validationErrors: []
     });
 };
 
@@ -36,9 +38,12 @@ exports.signup = (req, res, next) => {
     const password = req.body.password;
     const passwordConfirm = req.body['password-confirm'];
     const errors = validationResult(req);
+    console.log('============> V E', errors.array());
     if (!errors.isEmpty()) {
         return res.status(422).render('auth/signup', {            
-            errorMessage: errors.array()[0].msg
+            errorMessage: errors.array(),
+            oldInput: { username, email, password },
+            validationErrors: errors.array()
         });
     }
     if (password !== passwordConfirm) {
