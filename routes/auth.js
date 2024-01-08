@@ -1,5 +1,5 @@
 const express = require('express');
-const { check } = require('express-validator');
+const { check, body } = require('express-validator');
 
 const router = express.Router();
 
@@ -8,14 +8,24 @@ const authController = require('../controllers/AuthController');
 router.get('/signup', authController.signupPage);
 router.get('/login', authController.loginPage);
 router.post('/signup',
-    check('email').isEmail()
-        .withMessage('Please enter a valid email')
-        .custom((value, { req }) => {
-            if (value === 'fr2devkontiki@gmail.com') {
-                throw new Error('This email address is forbidden');
-            }
-            return true;
-        }),    
+    [
+        check('email').isEmail()
+            .withMessage('Entrez une adresse email valide svp.')
+            .custom((value, { req }) => {
+                if (value === 'fr2devkontiki@gmail.com') {
+                    throw new Error("L'adresse email utilisée est interdite.");
+                }
+                return true;
+            }),            
+            body('password')
+            .isLength({min: 8})
+            .withMessage('Votre mot de passe doit avoir 8 caractères au moins.'),
+            body('password-confirm').custom((value, { req }) => {
+                if (value !== req.body.password) {
+                    throw new Error('Password have to match!');
+                }
+            })
+    ],
     authController.signup
 );
 router.post('/login', authController.login);

@@ -38,7 +38,7 @@ exports.signup = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).render('auth/signup', {            
-            errorMessage: errors.array()
+            errorMessage: errors.array()[0].msg
         });
     }
     if (password !== passwordConfirm) {
