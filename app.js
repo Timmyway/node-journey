@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const ErrorController = require('./controllers/ErrorController');
 
 const MONGODB_URI = 'mongodb+srv://timtests:Xyyx37psYxkPS5Di@cluster0.wbjwp.mongodb.net/timtests?retryWrites=true&w=majority';
 
@@ -59,6 +60,9 @@ app.use(flash());
 // 			console.log(err);
 // 		});
 // });
+// static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use((req, res, next) => {
 	res.locals.isAuthenticated = req.session.isLoggedIn;
 	res.locals.csrfToken = req.csrfToken();
@@ -68,8 +72,7 @@ app.use(pageRoutes);
 app.use(noteRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
-// static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(ErrorController.get404);
 
 app.set('views', './views');
 // Register view engine
