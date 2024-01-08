@@ -28,7 +28,8 @@ exports.loginPage = (req, res, next) => {
     res.render('auth/login', {
         path: '/login',
         pageTitle: 'Login page',
-        errorMessage: message
+        errorMessage: message,
+        oldInput: { email: '' }
     });
 };
 
@@ -37,8 +38,7 @@ exports.signup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const passwordConfirm = req.body['password-confirm'];
-    const errors = validationResult(req);
-    console.log('============> V E', errors.array());
+    const errors = validationResult(req);    
     if (!errors.isEmpty()) {
         return res.status(422).render('auth/signup', {            
             errorMessage: errors.array(),
@@ -80,25 +80,46 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     const email = req.body.email;
-    const password = req.body.password;
-    User.findOne({ email: email })    
+    const password = req.body.password;    
+
+    const errors = validationResult(req);    
+    if (!errors.isEmpty()) {        
+        return res.status(422).render('auth/login', {
+            path: '/login',
+            errorMessage: errors.array(),
+            oldInput: {
+                email: email,
+                password: password
+            },
+            validationErrors: errors.array()
+        });
+    }
+    User.findOne({ email: email })
     .then(user => {        
         if (!user) {
-            req.flash('error', "You don't have an account yet.");
-            return res.redirect('/login');
+            return res.status(422).render('auth/login', {
+                path: '/login',
+                errorMessage: "L'adresse email ou le mot de passe renseigné est invalide.",
+                oldInput: { email, password },
+                validationErrors: []
+            });
         }
         bcrypt.compare(password, user.password)
-        .then(doMatch => {
-            if (doMatch) {
+        .then(doMatch => {            
+            if (doMatch) {                
                 req.session.isLoggedIn = true;
                 req.session.user = user;                
                 return req.session.save(err => {
                     console.log(err);
                     res.redirect('/');
                 })
-            }
-            req.flash('error', "Invalid email or password.");
-            res.redirect('/login');            
+            }            
+            return res.status(422).render('auth/login', {
+                path: '/login',
+                errorMessage: "L'adresse email ou le mot de passe renseigné ne correspond pas.",
+                oldInput: { email, password },
+                validationErrors: []
+            });
         })
         .catch(err => {
             console.log(err);

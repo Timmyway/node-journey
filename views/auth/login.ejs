@@ -40,6 +40,7 @@
                                 class="form-control"
                                 placeholder="exemple@email.com"
                                 autocomplete="username"
+                                value="<%= oldInput.email %>"
                                 required
                             >                            
                         </div>
@@ -67,10 +68,10 @@
                             Si vous n’avez pas encore de compte, créez le en moins d’une minute <a href="/signup" class="underline text-blue-600">ici.</a>
                         </p>
                     </div>
-                    
+                                        
                     <% if (errorMessage && errorMessage?.length > 0) { %>
-                        <div class="font-bold px-4 py-2 bg-red-300">
-                            <span><%= errorMessage %></span>
+                        <div class="font-bold px-4 py-2 bg-red-300 flex flex-col gap-2">                            
+                            <span>★ <%= errorMessage %></span>                            
                         </div>
                     <% } %>
                 </div>

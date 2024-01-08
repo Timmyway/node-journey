@@ -11,24 +11,34 @@ router.post('/signup',
     [
         check('email').isEmail()
             .withMessage('Entrez une adresse email valide svp.')
-            .custom((value, { req }) => {
-                if (value === 'fr2devkontiki@gmail.com') {
-                    throw new Error("L'adresse email utilisée est interdite.");
-                }
-                return true;
-            }),            
-            body('password')
-            .isLength({min: 8})
-            .withMessage('Votre mot de passe doit contenir 8 caractères au moins.'),
-            body('password-confirm').custom((value, { req }) => {
+            .normalizeEmail(),
+        body('password')
+            .isLength({min: 4})
+            .withMessage('Votre mot de passe doit contenir 4 caractères au moins.')
+            .trim(),
+        body('password-confirm', 'Entrez un mot de passe avec au moins 4 caractères')            
+            .trim()
+            .custom((value, { req }) => {                
                 if (value !== req.body.password) {
                     throw new Error("Les mots de passe ne correspondent pas. Veuillez réessayer.");
                 }
+                return true;
             })
     ],
     authController.signup
 );
-router.post('/login', authController.login);
+router.post('/login', 
+    [
+        body('email')
+            .isEmail()
+            .withMessage('Entrez une adresse email valide')
+            .normalizeEmail(),            
+        body('password', 'Le mot doit être valide')
+            .isLength({ min: 4 })
+            .trim()
+    ],
+    authController.login
+);
 router.post('/logout', authController.logout);
 
 module.exports = router;
